@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc -b && node dist/index.js",
-    "build": "npm i && tsc -b",
+    "build": "tsc -b",
     "start": "node index.js"
   },
   "keywords": [],
