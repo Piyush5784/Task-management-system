@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BACKEND_URL } from "../config";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
+import { useProjects } from "../context/ProjectsProvider";
 
 type status = "Pending" | "In Progress" | "Done";
 interface TaskProps {
@@ -17,8 +18,9 @@ interface TaskProps {
     createdAt: string;
     updatedAt: string;
   };
+  projectId: string;
 }
-const TaskCard: React.FC<TaskProps> = ({ task }) => {
+const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
   const [showComments, setShowComments] = useState(false);
   const [status, setStatus] = useState(task.status);
   const [comment, setComment] = useState("");
@@ -26,6 +28,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(true);
   const { user } = useAuth();
+  const { fetchTasks } = useProjects();
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -52,6 +55,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       );
       if (res.data.success) {
         toast.success(res.data.message);
+        fetchTasks(projectId);
         setSaveSuccess(true);
       } else {
         toast.error(res.data.message);

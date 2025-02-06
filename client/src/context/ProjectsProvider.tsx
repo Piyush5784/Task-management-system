@@ -25,6 +25,7 @@ interface ProjectsContextType {
 
   setTasks: React.Dispatch<React.SetStateAction<any>>;
   filteredTasks: any[];
+  fetchTasks: (projectId: string) => void;
   fetchUsers: () => void;
   setFilteredTasks: React.Dispatch<React.SetStateAction<any>>;
   filters: {
@@ -154,6 +155,23 @@ export const ProjectsContextProvider = ({
     }
   };
 
+  const fetchTasks = async (projectId: string) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}/api/v1/tasks`,
+        {
+          projectId,
+        },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setTasks(res.data.tasks);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchProjects = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/project/getAll`, {
@@ -176,6 +194,7 @@ export const ProjectsContextProvider = ({
     <ProjectsContext.Provider
       value={{
         fetchProjects,
+        fetchTasks,
         projects,
         setProjects,
         selectedProject,
