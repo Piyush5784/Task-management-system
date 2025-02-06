@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProjects } from "../context/ProjectsProvider";
-import toast, { LoaderIcon } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Sidebar from "./Sidebar";
 import { BiPlus } from "react-icons/bi";
 import ModalforTasks from "./ModelForTasks";
@@ -9,6 +9,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import TaskCard from "./TaskCard";
 import { useAuth } from "../context/AuthProvider";
+import { LuLoaderCircle } from "react-icons/lu";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -86,7 +87,11 @@ const ProjectDetails = () => {
   if (!id) {
     return <div>Invalid Id</div>;
   } else if (loading) {
-    return <LoaderIcon />;
+    return (
+      <div className="flex items-center justify-center h-[100vh]">
+        <LuLoaderCircle size={40} className="animate-spin" />
+      </div>
+    );
   } else {
     return (
       <>

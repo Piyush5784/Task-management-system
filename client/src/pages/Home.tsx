@@ -69,7 +69,7 @@ const Home = () => {
                 <span className="inline-block">
                   Organize, prioritize, and track your tasks
                 </span>
-                <span className="inline-block">with our powerful tools.</span>
+                <span className="inline-block"> with our powerful tools.</span>
               </p>
 
               <div className="mt-12 flex flex-col justify-center gap-y-5 sm:mt-10 sm:flex-row sm:gap-y-0 sm:gap-x-6">
@@ -99,7 +99,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="relative mx-auto mt-10 max-w-lg">
+          <div className="relative mx-auto mt-10">
             <img
               className="w-full rounded-2xl border border-gray-100 shadow"
               src="https://images.unsplash.com/photo-1587502536575-6dfba0a6e017"

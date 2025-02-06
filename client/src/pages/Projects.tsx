@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useProjects } from "../context/ProjectsProvider";
 import ProjectCard from "../components/ProjectCard";
 import Sidebar from "../components/Sidebar";
+import { LuLoaderCircle } from "react-icons/lu";
 interface ModalTypes {
   projectName: string;
   description: string;
@@ -19,8 +20,13 @@ const Projects = () => {
   const [loading, setLoading] = useState(false);
   const { projects, fetchProjects, fetchUsers } = useProjects();
   useEffect(() => {
-    fetchProjects();
-    fetchUsers();
+    async function fetchDetails() {
+      setLoading(true);
+      fetchProjects();
+      fetchUsers();
+      setLoading(false);
+    }
+    fetchDetails();
   }, []);
 
   const handleModalClose = () => {
@@ -58,7 +64,13 @@ const Projects = () => {
       <Sidebar />
 
       <div className="flex-1 p-6 relative">
-        <ProjectCard projects={projects} />
+        {projects ? (
+          <ProjectCard projects={projects} loading={loading} />
+        ) : (
+          <div className="flex items-center justify-center h-[100vh]">
+            <LuLoaderCircle size={40} className="animate-spin" />
+          </div>
+        )}
 
         {user && user.role === "Admin" && (
           <div className="absolute top-6 right-6">
