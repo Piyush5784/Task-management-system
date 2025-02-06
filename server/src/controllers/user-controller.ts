@@ -9,7 +9,6 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "none" as const,
-  domain: process.env.BACKEND_URL,
 };
 const jwtPassword = process.env.JWT_PASSWORD as string;
 
