@@ -1,26 +1,36 @@
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { IoMenu } from "react-icons/io5";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 const Navbar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   const [showProfileOption, setShowProfileOptions] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${BACKEND_URL}/api/v1/auth/logout`);
+      logout();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const navItems = [
     { name: "Home", href: "/" },
-
     { name: "Login", href: "/login" },
     { name: "Register", href: "/register" },
-
     { name: "Dashboard", href: "/dashboard" },
   ];
 
@@ -102,17 +112,24 @@ const Navbar = () => {
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
                     tabIndex={-1}
+                    onClick={() => setShowProfileOptions(false)}
                   >
-                    <Link
-                      to={"#"}
-                      className="block px-4 py-2 text-md text-gray-700"
+                    <button
+                      className="block px-4 cursor-pointer py-2 text-md text-gray-700"
                       role="menuitem"
                       tabIndex={-1}
+                      onClick={handleLogout}
                       id="user-menu-item-2"
                     >
                       Sign out
-                    </Link>
+                    </button>
                   </div>
+                )}
+                {showProfileOption && (
+                  <div
+                    className="fixed inset-0 z-0"
+                    onClick={() => setShowProfileOptions(false)}
+                  ></div>
                 )}
               </div>
             </div>
