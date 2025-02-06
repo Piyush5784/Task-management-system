@@ -31,6 +31,7 @@ const ProjectDetails = () => {
     async function fetchDetails() {
       setLoading(true);
       await fetchSpecificProject(id as string);
+
       setLoading(false);
     }
     fetchDetails();
@@ -195,7 +196,7 @@ const ProjectDetails = () => {
               <h2 className="text-xl font-bold text-gray-800">Project Tasks</h2>
               {filteredTasks.length > 0 ? (
                 filteredTasks.map((task) => (
-                  <TaskCard key={task._id} task={task} />
+                  <TaskCard key={task._id} task={task} projectId={id} />
                 ))
               ) : (
                 <p className="text-gray-500 mt-2">No tasks found.</p>

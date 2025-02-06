@@ -41,6 +41,25 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
+export const getTasks = async (req: Request, res: Response) => {
+  try {
+    const { projectId } = req.body;
+    const tasks = await taskModel.find({ projectId });
+
+    res.status(200).json({
+      success: true,
+      message: "Tasks retrieved successfully",
+      tasks,
+    });
+  } catch (error) {
+    console.error("Error retrieving tasks:", error);
+    res.json({
+      success: false,
+      message: "Failed to retrieve tasks",
+    });
+  }
+};
+
 export const updateTask = async (req: Request, res: Response) => {
   try {
     const { taskId } = req.body;

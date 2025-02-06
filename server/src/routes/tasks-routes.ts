@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import {
   AddComment,
   createTask,
+  getTasks,
   updateTask,
 } from "../controllers/tasks-controller";
 
@@ -21,6 +22,8 @@ const validateRequest = (req: Request, res: Response, next: NextFunction) => {
 router.post("/create", roleCheckMiddleware, validateRequest, createTask);
 
 router.post("/update", updateTask);
+
+router.post("/getAllTasks", getTasks);
 
 router.post("/comment", AddComment);
 
