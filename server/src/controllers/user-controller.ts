@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: true,
   sameSite: "none" as const,
 };
 const jwtPassword = process.env.JWT_PASSWORD as string;
