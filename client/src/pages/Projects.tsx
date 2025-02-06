@@ -48,6 +48,7 @@ const Projects = () => {
       );
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchProjects();
         handleModalClose();
       } else {
         toast.error(response.data.message);

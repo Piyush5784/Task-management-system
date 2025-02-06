@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SelectDropdown from "./SelectDropdown";
+import toast from "react-hot-toast";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -32,6 +33,10 @@ const ModalforTasks: React.FC<ModalProps> = ({
   const [assignedUsername, setAssignedUsername] = React.useState("");
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!title || !description || !status || !priority || !assignedUsername) {
+      toast.error("All fields are required");
+      return;
+    }
     onSubmit({
       title,
       description,
@@ -66,7 +71,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
                 htmlFor="title"
                 className="block text-sm font-semibold mb-2"
               >
-                Title
+                Title *
               </label>
               <input
                 type="text"
@@ -83,7 +88,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
                 htmlFor="description"
                 className="block text-sm font-semibold mb-2"
               >
-                Description
+                Description *
               </label>
               <textarea
                 id="description"
@@ -100,7 +105,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
               htmlFor="status"
               className="block text-sm font-semibold mb-2"
             >
-              Status
+              Status *
             </label>
             <select
               id="status"
@@ -120,7 +125,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
               htmlFor="priority"
               className="block text-sm font-semibold mb-2"
             >
-              Priority
+              Priority *
             </label>
             <select
               id="priority"
@@ -140,7 +145,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
               htmlFor="assignedUsername"
               className="block text-sm font-semibold mb-2"
             >
-              Assigned Username
+              Assigned Username *
             </label>
             <SelectDropdown
               setUsername={setAssignedUsername}
@@ -152,7 +157,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
               htmlFor="projectId"
               className="block text-sm font-semibold mb-2"
             >
-              Project ID
+              Project ID *
             </label>
             <input
               type="text"
