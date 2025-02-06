@@ -19,6 +19,7 @@ interface Project {
 
 interface ProjectsContextType {
   projects: Project[];
+  applyFilterAll: () => void;
   setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
   selectedProject: Project | null;
   setSelectedProject: React.Dispatch<React.SetStateAction<null>>;
@@ -85,9 +86,12 @@ export const ProjectsContextProvider = ({
 
   const applyFilterAssignedByUser = (userId: string) => {
     const filtered = tasks.filter(
-      (task: { assignedTo: string }) => task.assignedTo === userId
+      (task: { assignedTo: string }) => String(task.assignedTo) === userId
     );
     setFilteredTasks(filtered);
+  };
+  const applyFilterAll = () => {
+    setFilteredTasks(tasks);
   };
 
   const applyFilterByStatus = (status: string) => {
@@ -190,6 +194,8 @@ export const ProjectsContextProvider = ({
         applyFilterByPriority,
         applyFilterByStatus,
         applyMultipleFilters,
+
+        applyFilterAll,
         setFilteredTasks,
         filters,
         setFilters,

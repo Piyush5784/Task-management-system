@@ -15,7 +15,6 @@ const Sidebar = () => {
   const links = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Projects", href: "/projects" },
-    { name: "Tasks", href: "/tasks" },
   ];
 
   return (

@@ -63,7 +63,7 @@ const Projects = () => {
       <div className="flex-1 p-6 relative">
         <ProjectCard projects={projects} />
 
-        {user && (
+        {user && user.role === "Admin" && (
           <div className="absolute top-6 right-6">
             <button
               className="p-2 flex items-center justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
