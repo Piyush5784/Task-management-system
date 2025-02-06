@@ -17,9 +17,6 @@ const ProjectDetails = () => {
     selectedProject,
     tasks,
     filteredTasks,
-    applyFilterAssignedByUser,
-    applyFilterByStatus,
-    applyFilterByPriority,
     applyMultipleFilters,
     filters,
     setFilters,
@@ -39,7 +36,7 @@ const ProjectDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    applyMultipleFilters(id as string);
+    applyMultipleFilters(user?._id as string);
   }, [filters, tasks]);
 
   const handleModalClose = () => {
@@ -74,6 +71,7 @@ const ProjectDetails = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        handleModalClose();
       } else {
         toast.error(response.data.message);
       }
@@ -96,14 +94,19 @@ const ProjectDetails = () => {
           <Sidebar />
           <div className="p-6 shadow-lg rounded-2xl w-full">
             <div className="flex justify-between text-gray-800">
-              <h2 className="text-2xl font-bold">Project Details</h2>
-              <button
-                className="p-2 flex items-center text-md justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <BiPlus size={20} />
-                <span className="ml-2">New task</span>
-              </button>
+              <div>
+                <h2 className="text-2xl font-bold">Project Details</h2>
+                <p>List of all the project details</p>
+              </div>
+              {user && user.role === "Admin" && (
+                <button
+                  className="p-2 flex items-center text-md justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <BiPlus size={20} />
+                  <span className="ml-2">New task</span>
+                </button>
+              )}
             </div>
 
             <p className="text-xl font-semibold mt-4">
@@ -130,19 +133,23 @@ const ProjectDetails = () => {
             <div className="mt-6 p-4 bg-gray-100 rounded-lg">
               <h3 className="text-lg font-semibold">Filters</h3>
               <div className="flex gap-4 mt-2">
-                {/* Assigned to me filter */}
-                <label className="flex items-center space-x-2">
+                <label className="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
+                    value=""
+                    className="sr-only peer"
                     checked={filters.assignedToMe}
-                    onChange={(e) =>
+                    onChange={() =>
                       setFilters((prev) => ({
                         ...prev,
-                        assignedToMe: e.target.checked,
+                        assignedToMe: !prev.assignedToMe,
                       }))
                     }
                   />
-                  <span>Assigned to me</span>
+                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+                  <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Assigned to me
+                  </span>
                 </label>
 
                 {/* Status filter */}

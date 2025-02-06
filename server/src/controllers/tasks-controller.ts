@@ -25,6 +25,8 @@ export const createTask = async (req: Request, res: Response) => {
       comments,
     });
 
+    console.log(newTask);
+
     res.status(201).json({
       success: true,
       message: "Task successfully created",
@@ -41,17 +43,12 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   try {
-    const { projectId } = req.params;
+    const { taskId } = req.body;
     const updateData = req.body;
 
-    const updatedTask = await taskModel.findByIdAndUpdate(
-      projectId,
-      updateData,
-
-      {
-        new: true,
-      }
-    );
+    const updatedTask = await taskModel.findByIdAndUpdate(taskId, updateData, {
+      new: true,
+    });
 
     if (!updatedTask) {
       res.status(404).json({
@@ -71,6 +68,43 @@ export const updateTask = async (req: Request, res: Response) => {
     res.json({
       success: false,
       message: "Failed to update task",
+    });
+  }
+};
+
+export const AddComment = async (req: Request, res: Response) => {
+  try {
+    const { taskId, text, userId } = req.body;
+    const task = await taskModel.findById(taskId);
+
+    if (!task) {
+      res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+      return;
+    }
+
+    const newComment = {
+      text,
+      userId,
+      createdAt: new Date(),
+    };
+
+    task.comments.push(newComment);
+
+    await task.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Comment added successfully",
+      task,
+    });
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.json({
+      success: false,
+      error: "Failed to add comment",
     });
   }
 };

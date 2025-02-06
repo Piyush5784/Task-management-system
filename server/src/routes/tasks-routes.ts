@@ -1,7 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import { roleCheckMiddleware } from "../middlewares/user-middleware";
 import { validationResult } from "express-validator";
-import { createTask, updateTask } from "../controllers/tasks-controller";
+import {
+  AddComment,
+  createTask,
+  updateTask,
+} from "../controllers/tasks-controller";
 
 const router = express.Router();
 
@@ -17,5 +21,7 @@ const validateRequest = (req: Request, res: Response, next: NextFunction) => {
 router.post("/create", roleCheckMiddleware, validateRequest, createTask);
 
 router.post("/update", updateTask);
+
+router.post("/comment", AddComment);
 
 module.exports = router;

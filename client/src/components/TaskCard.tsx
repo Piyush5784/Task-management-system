@@ -1,6 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
+import toast from "react-hot-toast";
+import { useProjects } from "../context/ProjectsProvider";
+import { useAuth } from "../context/AuthProvider";
 
 type status = "Pending" | "In Progress" | "Done";
 interface TaskProps {
@@ -16,12 +19,14 @@ interface TaskProps {
     updatedAt: string;
   };
 }
-
 const TaskCard: React.FC<TaskProps> = ({ task }) => {
   const [showComments, setShowComments] = useState(false);
   const [status, setStatus] = useState(task.status);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(task.comments);
+  const [loading, setLoading] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(true);
+  const { user } = useAuth();
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -38,16 +43,26 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
 
   const statusTypes = ["Pending", "In Progress", "Done"];
 
-  const updateTaskStatus = async (newStatus: status) => {
+  const updateTaskStatus = async () => {
     try {
-      await axios.put(
-        `${BACKEND_URL}/api/v1/tasks/update/${task._id}`,
-        { status: newStatus },
+      setLoading(true);
+      const res = await axios.post(
+        `${BACKEND_URL}/api/v1/tasks/update`,
+        { status, taskId: task._id },
         { withCredentials: true }
       );
-      setStatus(newStatus);
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setSaveSuccess(true);
+      } else {
+        toast.error(res.data.message);
+        setStatus(task.status);
+      }
     } catch (error) {
       console.error("Failed to update status", error);
+      setStatus(task.status);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,11 +70,18 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     if (!comment.trim()) return;
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/tasks/${task._id}/comments`,
-        { text: comment },
+        `${BACKEND_URL}/api/v1/tasks/comment`,
+        { text: comment, taskId: task._id, userId: user._id },
         { withCredentials: true }
       );
-      setComments([...comments, response.data.comment]);
+      setComments([
+        ...comments,
+        {
+          text: comment,
+          createdBy: user.username,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
       setComment("");
     } catch (error) {
       console.error("Failed to add comment", error);
@@ -70,13 +92,24 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     <div className="w-full mt-10 mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-200">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">{task.title}</h2>
-        <span
-          className={`px-3 py-1 rounded-full text-sm ${getPriorityColor(
-            task.priority
-          )}`}
-        >
-          {task.priority}
-        </span>
+        <div className="flex items-center justify-between gap-5">
+          {!saveSuccess && (
+            <button
+              onClick={updateTaskStatus}
+              disabled={loading}
+              className="bg-blue-600 px-2 py-1 cursor-pointer text-white rounded-lg"
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          )}
+          <span
+            className={`px-3 py-1 rounded-full text-sm ${getPriorityColor(
+              task.priority
+            )}`}
+          >
+            {task.priority}
+          </span>
+        </div>
       </div>
       <p className="text-gray-600 mt-2">{task.description}</p>
 
@@ -87,7 +120,10 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
         </span>
         <select
           value={status}
-          onChange={(e) => updateTaskStatus(e.target.value as status)}
+          onChange={(e) => {
+            setStatus(e.target.value as status);
+            setSaveSuccess(false);
+          }}
           className="px-3 py-1 text-sm font-semibold rounded-md border border-gray-300 bg-white"
         >
           {statusTypes.map((s) => (
@@ -118,9 +154,11 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
                 key={index}
                 className="p-2 border rounded-md mt-2 bg-gray-100"
               >
-                <p className="text-sm">{comment.text}</p>
+                <p className="text-sm">{comment?.text}</p>
                 <span className="text-xs text-gray-500">
-                  {new Date(comment.createdAt).toLocaleString()}
+                  {comment?.createdAt
+                    ? new Date(comment.createdAt).toLocaleString()
+                    : "Unknown date"}
                 </span>
               </div>
             ))
