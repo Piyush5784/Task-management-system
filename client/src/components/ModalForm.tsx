@@ -1,8 +1,5 @@
 import React from "react";
-import { LoaderIcon } from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BiLoader, BiLoaderCircle, BiPlus } from "react-icons/bi";
-import { LuLoader } from "react-icons/lu";
 
 interface ModalProps {
   isOpen: boolean;

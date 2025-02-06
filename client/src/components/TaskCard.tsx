@@ -1,8 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BACKEND_URL } from "../config";
 import toast from "react-hot-toast";
-import { useProjects } from "../context/ProjectsProvider";
 import { useAuth } from "../context/AuthProvider";
 
 type status = "Pending" | "In Progress" | "Done";
@@ -69,7 +68,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
   const addComment = async () => {
     if (!comment.trim()) return;
     try {
-      const response = await axios.post(
+      await axios.post(
         `${BACKEND_URL}/api/v1/tasks/comment`,
         { text: comment, taskId: task._id, userId: user._id },
         { withCredentials: true }

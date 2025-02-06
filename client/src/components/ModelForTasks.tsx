@@ -28,10 +28,6 @@ const ModalforTasks: React.FC<ModalProps> = ({
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState("Pending");
   const [priority, setPriority] = React.useState("Low");
-  // const [comments, setComments] = React.useState<
-  //   { text: string; createdBy: string; createdAt: Date }[]
-  // >([]);
-  const [assignedTo, setAssignedTo] = React.useState("");
   const [userId, setUserId] = useState("");
   const [assignedUsername, setAssignedUsername] = React.useState("");
   const handleSubmit = (e: React.FormEvent) => {

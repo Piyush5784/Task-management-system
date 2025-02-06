@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Sidebar from "../components/Sidebar";
 import { useAuth } from "../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { useProjects } from "../context/ProjectsProvider";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const { fetchProjects } = useProjects();
 
   return (
     <div className="flex">
