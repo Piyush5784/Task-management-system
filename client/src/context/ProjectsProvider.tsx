@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import toast from "react-hot-toast";

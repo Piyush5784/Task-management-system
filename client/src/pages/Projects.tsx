@@ -8,8 +8,6 @@ import toast from "react-hot-toast";
 import { useProjects } from "../context/ProjectsProvider";
 import ProjectCard from "../components/ProjectCard";
 import Sidebar from "../components/Sidebar";
-import { useNavigate } from "react-router-dom";
-
 interface ModalTypes {
   projectName: string;
   description: string;
@@ -19,7 +17,6 @@ const Projects = () => {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const { projects, fetchProjects, fetchUsers } = useProjects();
   useEffect(() => {
     fetchProjects();
