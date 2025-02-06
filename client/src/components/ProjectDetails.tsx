@@ -18,6 +18,7 @@ const ProjectDetails = () => {
     selectedProject,
     tasks,
     filteredTasks,
+    fetchTasks,
     applyMultipleFilters,
     filters,
     setFilters,
@@ -31,7 +32,7 @@ const ProjectDetails = () => {
     async function fetchDetails() {
       setLoading(true);
       await fetchSpecificProject(id as string);
-
+      fetchTasks(id as string);
       setLoading(false);
     }
     fetchDetails();

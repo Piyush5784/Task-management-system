@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import { roleCheckMiddleware } from "../middlewares/user-middleware";
+import { roleCheckMiddleware, userCheck } from "../middlewares/user-middleware";
 import { validationResult } from "express-validator";
 import {
   AddComment,
@@ -19,7 +19,13 @@ const validateRequest = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-router.post("/create", roleCheckMiddleware, validateRequest, createTask);
+router.post(
+  "/create",
+  userCheck,
+  roleCheckMiddleware,
+  validateRequest,
+  createTask
+);
 
 router.post("/update", updateTask);
 

@@ -32,12 +32,14 @@ interface ProjectsContextType {
     assignedToMe: boolean;
     status: string;
     priority: string;
+    lastDate: boolean;
   };
   setFilters: React.Dispatch<
     React.SetStateAction<{
       assignedToMe: boolean;
       status: string;
       priority: string;
+      lastDate: boolean;
     }>
   >;
   users: string[] | any;
@@ -63,6 +65,7 @@ export const ProjectsContextProvider = ({
     assignedToMe: false,
     status: "",
     priority: "",
+    lastDate: false,
   });
   const [comments, setComments] = useState({});
 
@@ -131,6 +134,12 @@ export const ProjectsContextProvider = ({
         (task: { priority: string }) => task.priority === filters.priority
       );
     }
+    if (filters.lastDate) {
+      const currentDate = new Date();
+      updatedTasks = updatedTasks.filter(
+        (task: { lastDate: string }) => new Date(task.lastDate) < currentDate
+      );
+    }
 
     setFilteredTasks(updatedTasks);
   };
@@ -179,7 +188,6 @@ export const ProjectsContextProvider = ({
       });
       if (response.data.success) {
         toast.success(response.data.message);
-
         setProjects(response.data.projects);
       } else {
         toast.error(response.data.message);
