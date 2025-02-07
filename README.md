@@ -95,7 +95,7 @@ npm start
 ### Tasks
 - `GET /api/v1/tasks/getAllTasks` - Get all tasks.
 - `POST /api/v1/tasks/create` - Create a task (Admin only).
-- `PATCH /api/v1/tasks/update` - Update task status.
+- `POST /api/v1/tasks/update` - Update task status.
 - `POST /api/v1/tasks/comment` - Comment on a task.
 
 **Note:** All routes are protected with rate limiting and middleware for role-based access control.
