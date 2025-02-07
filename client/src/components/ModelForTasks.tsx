@@ -60,13 +60,13 @@ const ModalforTasks: React.FC<ModalProps> = ({
       onClick={() => onClose()}
     >
       <div
-        className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-4xl"
+        className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl mx-4 sm:mx-6 md:mx-8 lg:mx-10"
         onClick={handleModalClick}
       >
         <h3 className="text-2xl mb-4">Create New Task</h3>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 flex space-x-4">
-            <div className="w-1/2">
+          <div className="mb-4 flex flex-col md:flex-row md:space-x-4">
+            <div className="w-full md:w-1/2 mb-4 md:mb-0">
               <label
                 htmlFor="title"
                 className="block text-sm font-semibold mb-2"
@@ -83,7 +83,7 @@ const ModalforTasks: React.FC<ModalProps> = ({
                 required
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-full md:w-1/2">
               <label
                 htmlFor="description"
                 className="block text-sm font-semibold mb-2"

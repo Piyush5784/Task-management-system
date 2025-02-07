@@ -25,8 +25,6 @@ export const createTask = async (req: Request, res: Response) => {
       comments,
     });
 
-    console.log(newTask);
-
     res.status(201).json({
       success: true,
       message: "Task successfully created",

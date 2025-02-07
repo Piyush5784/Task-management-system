@@ -47,7 +47,15 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-100">
+    <div className="flex items-center justify-center flex-col gap-10 min-h-screen bg-blue-100">
+      <p>
+        Wait for 50s to start the server, going to the link to start the server
+        <a href={`${BACKEND_URL}/api/v1`} target="_blank" className="underline">
+          {" "}
+          check
+        </a>
+      </p>
+
       <form
         onSubmit={handleSubmit}
         className="bg-blue-200 p-8 rounded-lg shadow-md"
