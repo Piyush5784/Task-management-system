@@ -78,6 +78,14 @@ npm start
 
 #### Environment Variables
 - Add `.env` file in the `server` directory.
+  ```
+  PORT = 4000
+  MONGO_URL = ""
+  JWT_PASSWORD = "mysecretpassword"
+  FRONTEND_URL = "http://localhost:5173" #for local
+  NODE_ENV = "development"
+  BACKEND_URL = "" #(not needed if project is not deployed)
+  ```
 - Add `BACKEND_URL` in `client/src/config`.
 
 ## API Endpoints
