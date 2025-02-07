@@ -97,7 +97,8 @@ npm start
 - `POST /api/v1/tasks/create` - Create a task (Admin only).
 - `POST /api/v1/tasks/update` - Update task status.
 - `POST /api/v1/tasks/comment` - Comment on a task.
-
+- `Get /api/v1/tasks/getComments?projectId` - Get the latest comments.
+  
 **Note:** All routes are protected with rate limiting and middleware for role-based access control.
 
 ## Deployment
