@@ -103,20 +103,11 @@ npm start
 
 ## Deployment
 ### Frontend
-- Deploy on Netlify / Vercel.
+- Deployed on  Vercel.
+- Live link:- https://task-management-system-six-beta.vercel.app
 
 ### Backend
-- Deploy on Render.
+- Deployed on Render.
+- Live link:- [https://task-management-system-six-beta.vercel.app](https://task-management-system-p8fk.onrender.com/api/v1)
 
-## Submission
-- GitHub Repository (with commits & README).
-- Postman API Documentation.
-- Live Deployment Links (Frontend & Backend).
-
-## Evaluation Criteria
-- Authentication & Security.
-- Database Design & Query Optimization.
-- Project & Task Management Features.
-- UI/UX & State Management.
-- Deployment & API Documentation.
 
