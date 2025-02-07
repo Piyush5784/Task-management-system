@@ -10,7 +10,7 @@ const ProjectCard = ({ projects, loading }: projectCardProps) => {
     <div className="w-full p-6 bg-white shadow-lg rounded-2xl">
       <h2 className="text-2xl font-bold text-gray-800">Projects</h2>
 
-      {loading && (
+      {loading && !projects && (
         <div className="flex items-center justify-center h-[100vh]">
           <LuLoaderCircle size={40} className="animate-spin" />
         </div>

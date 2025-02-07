@@ -167,7 +167,7 @@ export const ProjectsContextProvider = ({
   const fetchTasks = async (projectId: string) => {
     try {
       const res = await axios.post(
-        `${BACKEND_URL}/api/v1/tasks`,
+        `${BACKEND_URL}/api/v1/tasks/getAllTasks`,
         {
           projectId,
         },

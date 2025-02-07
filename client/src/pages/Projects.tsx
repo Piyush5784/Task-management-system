@@ -61,20 +61,20 @@ const Projects = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <Sidebar />
 
-      <div className="flex-1 p-6 relative">
-        {projects ? (
-          <ProjectCard projects={projects} loading={loading} />
-        ) : (
-          <div className="flex items-center justify-center h-[100vh]">
+      <div className="flex-1 p-4 md:p-6 relative">
+        {loading && projects ? (
+          <div className="flex items-center justify-center h-[50vh] md:h-[100vh]">
             <LuLoaderCircle size={40} className="animate-spin" />
           </div>
+        ) : (
+          <ProjectCard projects={projects} loading={loading} />
         )}
 
         {user && user.role === "Admin" && (
-          <div className="absolute top-6 right-6">
+          <div className="absolute top-10 right-4 md:top-6 md:right-6">
             <button
               className="p-2 flex items-center justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
               onClick={() => setIsModalOpen(true)}

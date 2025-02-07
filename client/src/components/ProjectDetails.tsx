@@ -74,6 +74,7 @@ const ProjectDetails = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchTasks(id as string);
         handleModalClose();
       } else {
         toast.error(response.data.message);
@@ -97,22 +98,24 @@ const ProjectDetails = () => {
   } else {
     return (
       <>
-        <div className="flex w-full">
+        <div className="flex flex-col md:flex-row w-full">
           <Sidebar />
           <div className="p-6 shadow-lg rounded-2xl w-full">
-            <div className="flex justify-between text-gray-800">
+            <div className="flex flex-col md:flex-row justify-between text-gray-800">
               <div>
                 <h2 className="text-2xl font-bold">Project Details</h2>
                 <p>List of all the project details</p>
               </div>
               {user && user.role === "Admin" && (
-                <button
-                  className="p-2 flex items-center text-md justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <BiPlus size={20} />
-                  <span className="ml-2">New task</span>
-                </button>
+                <div className="mt-4 md:mt-0">
+                  <button
+                    className="p-2 flex items-center text-md justify-center bg-blue-600 text-white border-none rounded-lg cursor-pointer hover:bg-blue-700 transition"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <BiPlus size={20} />
+                    <span>New task</span>
+                  </button>
+                </div>
               )}
             </div>
 
@@ -139,7 +142,7 @@ const ProjectDetails = () => {
             {/* Filters Section */}
             <div className="mt-6 p-4 bg-gray-100 rounded-lg">
               <h3 className="text-lg font-semibold">Filters</h3>
-              <div className="flex gap-4 mt-2">
+              <div className="flex flex-col md:flex-row gap-4 mt-2">
                 <label className="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
