@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { taskModel } from "../models/tasks-model";
 import { userModel } from "../models/user-model";
-import { projectModel } from "../models/projects-model";
 
 export const createTask = async (req: Request, res: Response) => {
   try {
@@ -105,14 +104,6 @@ export const AddComment = async (req: Request, res: Response) => {
     }
 
     const user = await userModel.findOne({ _id: userId });
-
-    if (!user) {
-      res.json({
-        success: false,
-        message: "Invalid user",
-      });
-    }
-
     if (!user) {
       res.status(404).json({
         success: false,
