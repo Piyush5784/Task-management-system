@@ -46,6 +46,8 @@ interface ProjectsContextType {
   comments: Record<string, any>;
   setComments: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   fetchProjects: () => void;
+  loadingProjects: boolean;
+  setLoadingProjects: React.Dispatch<React.SetStateAction<boolean>>;
   fetchSpecificProject: (id: string) => Promise<void>;
 }
 
@@ -57,6 +59,7 @@ export const ProjectsContextProvider = ({
   children: ReactNode;
 }) => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [tasks, setTasks] = useState<any>([]);
   const [users, setUsers] = useState([]);
@@ -197,6 +200,7 @@ export const ProjectsContextProvider = ({
 
   const fetchProjects = async () => {
     try {
+      setLoadingProjects(true);
       const response = await axios.get(`${BACKEND_URL}/api/v1/project/getAll`, {
         withCredentials: true,
       });
@@ -210,6 +214,8 @@ export const ProjectsContextProvider = ({
     } catch (error) {
       console.error("Error fetching projects:", error);
       toast.error("Failed to fetch project details");
+    } finally {
+      setLoadingProjects(false);
     }
   };
 
@@ -231,7 +237,8 @@ export const ProjectsContextProvider = ({
         applyFilterByStatus,
         applyMultipleFilters,
         fetchComments,
-
+        loadingProjects,
+        setLoadingProjects,
         applyFilterAll,
         setFilteredTasks,
         filters,
