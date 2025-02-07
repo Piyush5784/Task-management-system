@@ -28,12 +28,12 @@ router.post(
   createTask
 );
 
-router.post("/update", updateTask);
+router.post("/update", roleCheckMiddleware, updateTask);
 
 router.post("/getAllTasks", getTasks);
 
 router.post("/comment", AddComment);
 
-router.post("/getComments", getAllComments);
+router.get("/getComments", getAllComments);
 
 module.exports = router;
