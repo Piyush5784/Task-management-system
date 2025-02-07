@@ -31,7 +31,6 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Login", href: "/login" },
     { name: "Register", href: "/register" },
-    { name: "Dashboard", href: "/dashboard" },
   ];
 
   return (
@@ -114,6 +113,9 @@ const Navbar = () => {
                     tabIndex={-1}
                     onClick={() => setShowProfileOptions(false)}
                   >
+                    <p className="block px-4 py-2 text-md text-gray-700 sm:text-sm">
+                      {user?.username}
+                    </p>
                     <button
                       className="block px-4 cursor-pointer py-2 text-md text-gray-700"
                       role="menuitem"
