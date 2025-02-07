@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { taskModel } from "../models/tasks-model";
+import { userModel } from "../models/user-model";
+import { projectModel } from "../models/projects-model";
 
 export const createTask = async (req: Request, res: Response) => {
   try {
@@ -102,9 +104,27 @@ export const AddComment = async (req: Request, res: Response) => {
       return;
     }
 
+    const user = await userModel.findOne({ _id: userId });
+
+    if (!user) {
+      res.json({
+        success: false,
+        message: "Invalid user",
+      });
+    }
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "Invalid user",
+      });
+      return;
+    }
+
     const newComment = {
       text,
       userId,
+      createdByUsername: user.username,
       createdAt: new Date(),
     };
 
@@ -122,6 +142,38 @@ export const AddComment = async (req: Request, res: Response) => {
     res.json({
       success: false,
       error: "Failed to add comment",
+    });
+  }
+};
+
+export const getAllComments = async (req: Request, res: Response) => {
+  try {
+    const { projectId } = req.query;
+    if (!projectId) {
+      res.status(400).json({ success: false, message: "Task ID is required" });
+      return;
+    }
+    const project = await taskModel.findOne({
+      projectId,
+    });
+
+    if (!project) {
+      res.json({
+        success: false,
+        message: "Failed to get all the comments",
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      comments: project.comments,
+      message: "All comments fetched successfully",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "Failed to fetch comments ",
     });
   }
 };

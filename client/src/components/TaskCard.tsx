@@ -4,6 +4,7 @@ import { BACKEND_URL } from "../config";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthProvider";
 import { useProjects } from "../context/ProjectsProvider";
+import { LuLoaderCircle } from "react-icons/lu";
 
 type status = "Pending" | "In Progress" | "Done";
 interface TaskProps {
@@ -14,7 +15,12 @@ interface TaskProps {
     status: status;
     priority: "Low" | "Medium" | "High";
     assignedUsername: string;
-    comments: { text: string; createdBy: string; createdAt: string }[];
+    comments: {
+      text: string;
+      createdBy: string;
+      createdAt: string;
+      createdByUsername: string;
+    }[];
     createdAt: string;
     updatedAt: string;
   };
@@ -70,6 +76,7 @@ const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
   };
 
   const addComment = async () => {
+    setLoading(true);
     if (!comment.trim()) return;
     try {
       await axios.post(
@@ -81,13 +88,17 @@ const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
         ...comments,
         {
           text: comment,
-          createdBy: user.username,
+          createdBy: user._id,
+          createdByUsername: user.username,
           createdAt: new Date().toISOString(),
         },
       ]);
+      fetchTasks(projectId);
       setComment("");
     } catch (error) {
       console.error("Failed to add comment", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -159,6 +170,7 @@ const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
               >
                 <p className="text-sm">{comment?.text}</p>
                 <span className="text-xs text-gray-500">
+                  {comment?.createdByUsername} -{" "}
                   {comment?.createdAt
                     ? new Date(comment.createdAt).toLocaleString()
                     : "Unknown date"}
@@ -179,9 +191,10 @@ const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
             />
             <button
               onClick={addComment}
-              className="px-3 py-2 bg-blue-500 text-white rounded-md text-sm"
+              disabled={loading}
+              className="px-3 py-2 flex items-center gap-1 bg-blue-500 text-white rounded-md text-sm"
             >
-              Comment
+              {loading && <LuLoaderCircle className="animate-spin" />} Comment
             </button>
           </div>
         </div>

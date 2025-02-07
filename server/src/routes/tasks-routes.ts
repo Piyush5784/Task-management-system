@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import {
   AddComment,
   createTask,
+  getAllComments,
   getTasks,
   updateTask,
 } from "../controllers/tasks-controller";
@@ -32,5 +33,7 @@ router.post("/update", updateTask);
 router.post("/getAllTasks", getTasks);
 
 router.post("/comment", AddComment);
+
+router.post("/getComments", getAllComments);
 
 module.exports = router;

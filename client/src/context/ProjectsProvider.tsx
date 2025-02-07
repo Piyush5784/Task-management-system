@@ -22,7 +22,7 @@ interface ProjectsContextType {
   applyMultipleFilters: (id: string) => void;
   applyFilterAssignedByUser: (userId: string) => void;
   applyFilterByStatus: (status: string) => void;
-
+  fetchComments: (projectId: string) => void;
   setTasks: React.Dispatch<React.SetStateAction<any>>;
   filteredTasks: any[];
   fetchTasks: (projectId: string) => void;
@@ -181,6 +181,20 @@ export const ProjectsContextProvider = ({
     }
   };
 
+  const fetchComments = async (projectId: string) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}/api/v1/tasks/getComments?projectId=${projectId}`,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setComments(res.data.comments);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchProjects = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/project/getAll`, {
@@ -189,6 +203,7 @@ export const ProjectsContextProvider = ({
       if (response.data.success) {
         toast.success(response.data.message);
         setProjects(response.data.projects);
+        // setComments(response.data.projects.comments)
       } else {
         toast.error(response.data.message);
       }
@@ -215,6 +230,7 @@ export const ProjectsContextProvider = ({
         applyFilterByPriority,
         applyFilterByStatus,
         applyMultipleFilters,
+        fetchComments,
 
         applyFilterAll,
         setFilteredTasks,
